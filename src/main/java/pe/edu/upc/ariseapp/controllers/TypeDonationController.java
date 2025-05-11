@@ -1,8 +1,13 @@
 package pe.edu.upc.ariseapp.controllers;
 
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import pe.edu.upc.ariseapp.dtos.HU54DTO;
@@ -24,7 +29,7 @@ public class TypeDonationController {
     public TypeDonationController() {}
 
     @GetMapping
-    @PreAuthorize("hasAuthority('ECOLOGISTA, ADMIN')")
+    @PreAuthorize("hasAnyAuthority('ECOLOGISTA', 'ADMIN')")
     public List<TypeDonationDTO> listar(){
         return tS.list().stream().map(x->{
             ModelMapper modelMapper = new ModelMapper();
@@ -34,15 +39,17 @@ public class TypeDonationController {
 
     @PostMapping
     @PreAuthorize("hasAnyAuthority('ECOLOGISTA', 'ADMIN')")
-    public void insertar(@RequestBody TypeDonationDTO tDto){
+    public ResponseEntity<String> registrar(@Valid @RequestBody TypeDonationDTO tDto){
         ModelMapper modelMapper = new ModelMapper();
         TypeDonation td= modelMapper.map(tDto, TypeDonation.class);
         tS.insert(td);
+        String mensaje = "Tipo de Donacion registrada correctamente: " + tDto.getTypeDonation();
+        return new ResponseEntity<>(mensaje, HttpStatus.CREATED);
     }
 
     @GetMapping("/{idTypeDonation}")
-    @PreAuthorize("hasAnyAuthority('ECOLOGISTA, ADMIN')")
-    public TypeDonationDTO listarId(@PathVariable("idTypeDonation") int idTypeDonation) {
+    @PreAuthorize("hasAnyAuthority('ECOLOGISTA', 'ADMIN')")
+    public TypeDonationDTO listarId(@Valid @PathVariable("idTypeDonation") @Min(1) @Max(50) int idTypeDonation) {
         ModelMapper m = new ModelMapper();
         TypeDonationDTO dto = m.map(tS.listId(idTypeDonation), TypeDonationDTO.class);
         return dto;
@@ -50,15 +57,17 @@ public class TypeDonationController {
 
     @PutMapping
     @PreAuthorize("hasAnyAuthority('ECOLOGISTA', 'ADMIN')")
-    public void modificar(@RequestBody TypeDonationDTO tDTO) {
+    public ResponseEntity<String> modificar(@Valid @RequestBody TypeDonationDTO tDTO) {
         ModelMapper m = new ModelMapper();
         TypeDonation td = m.map(tDTO, TypeDonation.class);
         tS.update(td);
+        String mensaje = "Tipo de donacion modificado correctamente: " + tDTO.getTypeDonation();
+        return new ResponseEntity<>(mensaje, HttpStatus.OK);
     }
 
     @DeleteMapping("/{idTypeDonation}")
     @PreAuthorize("hasAnyAuthority('ECOLOGISTA', 'ADMIN')")
-    public void eliminar(@PathVariable("idTypeDonation") int idTypeDonation) {
+    public void eliminar(@Valid @PathVariable("idTypeDonation") @Min(1) int idTypeDonation) {
         tS.delete(idTypeDonation);
     }
 

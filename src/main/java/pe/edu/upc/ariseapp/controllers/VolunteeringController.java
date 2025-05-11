@@ -1,8 +1,13 @@
 package pe.edu.upc.ariseapp.controllers;
 
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import pe.edu.upc.ariseapp.dtos.HU59DTO;
@@ -33,14 +38,16 @@ public class VolunteeringController {
 
     @PostMapping
     @PreAuthorize("hasAnyAuthority('ECOLOGISTA', 'ADMIN')")
-    public void insertar(@RequestBody VolunteeringDTO vDto){
+    public ResponseEntity<String> registrar(@Valid @RequestBody VolunteeringDTO vDto){
         ModelMapper modelMapper = new ModelMapper();
         Volunteering v = modelMapper.map(vDto, Volunteering.class);
         vS.insert(v);
+        String mensaje = "Voluntariado registrado correctamente: " + vDto.getNameVolunteering();
+        return new ResponseEntity<>(mensaje, HttpStatus.CREATED);
     }
 
     @GetMapping("/{idVolunteering}")
-    public VolunteeringDTO listarId(@PathVariable("idVolunteering") int idVolunteering) {
+    public VolunteeringDTO listarId(@Valid @PathVariable("idVolunteering") @Min(1) @Max(50) int idVolunteering) {
         ModelMapper m = new ModelMapper();
         VolunteeringDTO dto = m.map(vS.listId(idVolunteering), VolunteeringDTO.class);
         return dto;
@@ -48,14 +55,16 @@ public class VolunteeringController {
 
     @PutMapping
     @PreAuthorize("hasAnyAuthority('ECOLOGISTA', 'ADMIN')")
-    public void modificar(@RequestBody VolunteeringDTO vDto) {
+    public ResponseEntity<String> modificar(@Valid @RequestBody VolunteeringDTO vDto) {
         ModelMapper m = new ModelMapper();
         Volunteering v = m.map(vDto, Volunteering.class);
         vS.update(v);
+        String mensaje = "Voluntariado modificado correctamente: " + vDto.getNameVolunteering();
+        return new ResponseEntity<>(mensaje, HttpStatus.OK);
     }
     @DeleteMapping("/{idVolunteering}")
     @PreAuthorize("hasAnyAuthority('ECOLOGISTA', 'ADMIN')")
-    public void eliminar(@PathVariable("idVolunteering") int idVolunteering) {
+    public void eliminar(@Valid @PathVariable("idVolunteering") @Min(1) int idVolunteering) {
         vS.delete(idVolunteering);
     }
 

@@ -1,8 +1,13 @@
 package pe.edu.upc.ariseapp.controllers;
 
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import pe.edu.upc.ariseapp.dtos.ForumDTO;
@@ -34,15 +39,17 @@ public class ForumController {
     }
 
     @PostMapping
-    @PreAuthorize("hasAnyAuthority('ECOLOGISTA, ADMIN, VOLUNTARIO')")
-    public void insertar(@RequestBody ForumDTO fDTO){
+    @PreAuthorize("hasAnyAuthority('ECOLOGISTA', 'ADMIN', 'VOLUNTARIO')")
+    public ResponseEntity<String> registrar(@Valid @RequestBody ForumDTO fDTO){
         ModelMapper modelMapper = new ModelMapper();
         Forum f= modelMapper.map(fDTO, Forum.class);
         fS.insert(f);
+        String mensaje = "Foro registrado correctamente: " + fDTO.getNameForum();
+        return new ResponseEntity<>(mensaje, HttpStatus.CREATED);
     }
 
     @GetMapping("/{idForum}")
-    public ForumDTO listarId(@PathVariable("idForum") int idForum) {
+    public ForumDTO listarId(@Valid @PathVariable("idForum") @Min(1) @Max(50) int idForum) {
         ModelMapper m = new ModelMapper();
         ForumDTO dto = m.map(fS.listId(idForum), ForumDTO.class);
         return dto;
@@ -50,15 +57,17 @@ public class ForumController {
 
     @PutMapping
     @PreAuthorize("hasAnyAuthority('ECOLOGISTA', 'ADMIN','VOLUNTARIO')")
-    public void modificar(@RequestBody ForumDTO fDTO) {
+    public ResponseEntity<String> modificar(@Valid @RequestBody ForumDTO fDTO) {
         ModelMapper m = new ModelMapper();
         Forum f = m.map(fDTO, Forum.class);
         fS.update(f);
+        String mensaje = "Foro modificado correctamente: " + fDTO.getNameForum();
+        return new ResponseEntity<>(mensaje, HttpStatus.OK);
     }
 
     @DeleteMapping("/{idForum}")
     @PreAuthorize("hasAnyAuthority('ECOLOGISTA', 'ADMIN','VOLUNTARIO')")
-    public void eliminar(@PathVariable("idForum") int idForum) {
+    public void eliminar(@Valid @PathVariable("idForum") @Min(1) @Max(50) int idForum) {
         fS.delete(idForum);
     }
 

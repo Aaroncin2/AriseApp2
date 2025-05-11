@@ -11,7 +11,7 @@ public class Forum {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int idForum;
 
-    @Column(name = "nameForum", nullable = false, length = 45)
+    @Column(name = "nameForum", nullable = false, length = 30)
     private String nameForum;
 
     @Column(name = "contentForum", nullable = false, length = 200)

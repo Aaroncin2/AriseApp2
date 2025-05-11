@@ -10,7 +10,7 @@ public class Volunteering {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int idVolunteering;
 
-    @Column(name = "nameVolunteering",nullable = false,length = 45)
+    @Column(name = "nameVolunteering",nullable = false,length = 30)
     private String nameVolunteering;
 
     @Column(name = "activityVolunteering",nullable = false, length = 100)
@@ -19,7 +19,7 @@ public class Volunteering {
     @Column(name = "attendanceVolunteering",nullable = false)
     private Boolean attendanceVolunteering;
 
-    @Column(name = "areaVolunteering",nullable = false, length = 45)
+    @Column(name = "areaVolunteering",nullable = false, length = 30)
     private String areaVolunteering;
 
     @ManyToOne

@@ -13,5 +13,4 @@ public interface IUserRepository extends JpaRepository<Users, Integer> {
             "            FROM users u\n" +
             "            JOIN roles r ON u.id_user = r.id_user",nativeQuery = true)
     List<String[]> UsersAndRol();
-
 }

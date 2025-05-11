@@ -1,8 +1,13 @@
 package pe.edu.upc.ariseapp.controllers;
 
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import pe.edu.upc.ariseapp.dtos.DonationDTO;
@@ -31,14 +36,16 @@ public class DonationController {
 
     @PostMapping
     @PreAuthorize("hasAnyAuthority('ECOLOGISTA', 'ADMIN','VOLUNTARIO')")
-    public void insertar(@RequestBody DonationDTO dDto){
+    public ResponseEntity<String> registar(@Valid @RequestBody DonationDTO dDto){
         ModelMapper modelMapper = new ModelMapper();
         Donation d= modelMapper.map(dDto, Donation.class);
         dS.insert(d);
+        String mensaje = "Donacion registrada correctamente: " + dDto.getNameDonation();
+        return new ResponseEntity<>(mensaje, HttpStatus.CREATED);
     }
 
     @GetMapping("/{idDonation}")
-    public DonationDTO listarId(@PathVariable("idDonation") int idDonation) {
+    public DonationDTO listarId(@Valid @PathVariable("idDonation") @Min(1) @Max(50) int idDonation) {
         ModelMapper m = new ModelMapper();
         DonationDTO dto = m.map(dS.listId(idDonation), DonationDTO.class);
         return dto;
@@ -46,15 +53,17 @@ public class DonationController {
 
     @PutMapping
     @PreAuthorize("hasAnyAuthority('ECOLOGISTA', 'ADMIN','VOLUNTARIO')")
-    public void modificar(@RequestBody DonationDTO dDTO) {
+    public ResponseEntity<String> modificar(@Valid @RequestBody DonationDTO dDTO) {
         ModelMapper m = new ModelMapper();
         Donation d = m.map(dDTO, Donation.class);
         dS.update(d);
+        String mensaje = "Donacion modificada correctamente: " + dDTO.getNameDonation();
+        return new ResponseEntity<>(mensaje, HttpStatus.OK);
     }
 
     @DeleteMapping("/{idDonation}")
     @PreAuthorize("hasAnyAuthority('ECOLOGISTA', 'ADMIN','VOLUNTARIO')")
-    public void eliminar(@PathVariable("idDonation") int idDonation) {
+    public void eliminar(@Valid @PathVariable("idDonation") @Min(1) int idDonation) {
         dS.delete(idDonation);
     }
     

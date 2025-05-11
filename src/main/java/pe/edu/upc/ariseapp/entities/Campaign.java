@@ -9,7 +9,7 @@ public class Campaign {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int idCampaign;
 
-    @Column(name="nameCampaign", nullable = false,length = 200)
+    @Column(name="nameCampaign", nullable = false,length = 30)
     private String nameCampaign;
 
     @Column(name="descriptionCampaign", nullable = false, length = 200)
