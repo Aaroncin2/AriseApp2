@@ -3,7 +3,7 @@ import pe.edu.upc.ariseapp.entities.Mission;
 import java.util.List;
 
 
-public interface IMissionsService {
+public interface IMissionService {
     public List<Mission> list();
     public void insert(Mission mi);
     public Mission listId(int idMissions);

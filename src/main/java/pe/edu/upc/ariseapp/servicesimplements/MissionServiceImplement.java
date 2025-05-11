@@ -4,12 +4,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pe.edu.upc.ariseapp.entities.Mission;
 import pe.edu.upc.ariseapp.repositories.IMissionRepository;
-import pe.edu.upc.ariseapp.servicesinterfaces.IMissionsService;
+import pe.edu.upc.ariseapp.servicesinterfaces.IMissionService;
 
 import java.util.List;
 
 @Service
-public class MissionsServiceImplement implements IMissionsService {
+public class MissionServiceImplement implements IMissionService {
     @Autowired
     private IMissionRepository mR;
 

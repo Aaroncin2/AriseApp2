@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import pe.edu.upc.ariseapp.dtos.HU58DTO;
 import pe.edu.upc.ariseapp.dtos.MissionDTO;
 import pe.edu.upc.ariseapp.entities.Mission;
-import pe.edu.upc.ariseapp.servicesinterfaces.IMissionsService;
+import pe.edu.upc.ariseapp.servicesinterfaces.IMissionService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,9 +15,12 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/missions")
-public class MissionsController {
+public class MissionController {
     @Autowired
-    private IMissionsService mS;
+    private IMissionService mS;
+
+    public MissionController() {}
+
     @GetMapping
     public List<MissionDTO> listar(){
         return mS.list().stream().map(x->{
