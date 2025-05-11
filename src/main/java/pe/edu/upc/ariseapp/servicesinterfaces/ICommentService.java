@@ -10,4 +10,6 @@ public interface ICommentService {
     public Comment listId(int idComment);
     public void update(Comment co);
     public void delete(int idComment);
+    public List<String[]> comentariosByNombreUsuario(String username);
+    public List<String[]> countCommentsByUsers();
 }

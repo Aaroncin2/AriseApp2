@@ -34,4 +34,14 @@ public class CommentServiceImplement implements ICommentService {
         cR.deleteById(idComment);
     }
 
+    @Override
+    public List<String[]> comentariosByNombreUsuario(String username) {
+        return cR.comentariosByNombreUsuario(username);
+    }
+
+    @Override
+    public List<String[]> countCommentsByUsers() {
+        return cR.countCommentsByUsers();
+    }
+
 }
