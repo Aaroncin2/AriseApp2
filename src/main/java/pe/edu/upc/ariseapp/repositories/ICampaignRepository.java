@@ -9,9 +9,9 @@ import java.util.List;
 
 @Repository
 public interface ICampaignRepository extends JpaRepository<Campaign, Integer> {
-    @Query(value = "SELECT c.id_campaign, c.name_campaign, c.description_campaign, c.date_campaign, u.name_user, r.rol\n" +
-            "FROM campaigns c\n" +
-            "INNER JOIN rols r ON c.id_rol = r.id_rol\n" +
+    @Query(value = "SELECT c.id_campaign, c.name_campaign, c.description_campaign, c.date_campaign, u.username, r.rol\n" +
+            "FROM campaign c\n" +
+            "INNER JOIN roles r ON c.id_rol = r.id_rol\n" +
             "INNER JOIN users u on u.id_user = r.id_rol", nativeQuery = true)
     List<String[]> findCampaignsByUserAndRol();
 }

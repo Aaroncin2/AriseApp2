@@ -10,8 +10,8 @@ import java.util.List;
 @Repository
 public interface IForumRepository extends JpaRepository<Forum, Integer> {
     @Query(value = "SELECT u.username, f.content_forum, c.description_comment\n" +
-            "FROM comments c\n" +
-            "JOIN forum f ON c.name_forum = f.id_forum\n" +
-            "JOIN users u ON c.name_user = u.id_user;", nativeQuery = true)
+            "FROM comment c\n" +
+            "JOIN forum f ON c.id_forum = f.id_forum\n" +
+            "JOIN users u ON c.id_user = u.id_user;", nativeQuery = true)
     public List<String[]> forumsxComment();
 }

@@ -9,9 +9,9 @@ import java.util.List;
 
 @Repository
 public interface IUserRepository extends JpaRepository<Users, Integer> {
-    @Query(value = "SELECT u.id_user, u.name_user, u.email_user, r.rol\n" +
-            "FROM users u\n" +
-            "JOIN rols r ON u.id_user = r.id_user;",nativeQuery = true)
+    @Query(value = "SELECT u.id_user, u.username, u.email, r.rol\n" +
+            "            FROM users u\n" +
+            "            JOIN roles r ON u.id_user = r.id_user",nativeQuery = true)
     List<String[]> UsersAndRol();
 
 }
