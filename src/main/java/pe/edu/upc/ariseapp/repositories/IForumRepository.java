@@ -14,4 +14,10 @@ public interface IForumRepository extends JpaRepository<Forum, Integer> {
             "JOIN forum f ON c.id_forum = f.id_forum\n" +
             "JOIN users u ON c.id_user = u.id_user;", nativeQuery = true)
     public List<String[]> forumsxComment();
+
+    @Query(value = "SELECT DISTINCT u.username, f.name_forum\n" +
+            "FROM users u\n" +
+            "JOIN comment c ON u.id_user = c.id_user\n" +
+            "JOIN forum f ON c.id_forum = f.id_forum;", nativeQuery = true)
+    public List<String[]> userxForum();
 }

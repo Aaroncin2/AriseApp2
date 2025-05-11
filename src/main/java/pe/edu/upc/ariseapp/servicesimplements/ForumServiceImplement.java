@@ -36,4 +36,9 @@ public class ForumServiceImplement implements IForumService {
     public List<String[]> forumsxComment() {
         return fR.forumsxComment();
     }
+
+    @Override
+    public List<String[]> userxForum() {
+        return fR.userxForum();
+    }
 }

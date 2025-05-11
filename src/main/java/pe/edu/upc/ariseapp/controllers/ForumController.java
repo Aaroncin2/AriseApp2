@@ -7,6 +7,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import pe.edu.upc.ariseapp.dtos.ForumDTO;
 import pe.edu.upc.ariseapp.dtos.HU60DTO;
+import pe.edu.upc.ariseapp.dtos.HU63DTO;
 import pe.edu.upc.ariseapp.entities.Forum;
 import pe.edu.upc.ariseapp.servicesinterfaces.IForumService;
 
@@ -70,6 +71,18 @@ public class ForumController {
             dto.setUsername(columna[0]);
             dto.setContent_forum(columna[1]);
             dto.setDescription_forum(columna[2]);
+            dtos.add(dto);
+        }
+        return dtos;
+    }
+    @GetMapping("/HU63")
+    public List<HU63DTO> HU63(){
+        List<HU63DTO> dtos = new ArrayList<>();
+        List<String[]> filaLista = fS.userxForum();
+        for(String[] columna : filaLista) {
+            HU63DTO dto = new HU63DTO();
+            dto.setUsername(columna[0]);
+            dto.setName_forum(columna[1]);
             dtos.add(dto);
         }
         return dtos;

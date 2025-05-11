@@ -11,4 +11,5 @@ public interface IForumService {
     public void update(Forum f);
     public void delete(int idForum);
     public List<String[]> forumsxComment();
+    public List<String[]> userxForum();
 }
