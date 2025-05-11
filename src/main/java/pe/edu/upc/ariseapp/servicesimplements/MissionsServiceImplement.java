@@ -33,4 +33,9 @@ public class MissionsServiceImplement implements IMissionsService {
     public void delete(int idMission) {
         mR.deleteById(idMission);
     }
+
+    @Override
+    public List<String[]> missionsByUser() {
+        return mR.missionsByUser();
+    }
 }

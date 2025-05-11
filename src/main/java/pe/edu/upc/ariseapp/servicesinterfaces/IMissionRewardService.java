@@ -10,4 +10,5 @@ public interface IMissionRewardService {
     public MissionReward listId(int idMissionReward);
     public void update(MissionReward mr);
     public void delete(int idMissionReward);
+    public List<String[]> findMissionsWithMultipleRewards();
 }

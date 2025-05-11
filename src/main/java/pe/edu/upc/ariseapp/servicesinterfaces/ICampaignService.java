@@ -11,4 +11,5 @@ public interface ICampaignService {
     public Campaign listId(int idCampaign);
     public void update(Campaign c);
     public void delete(int idCampaign);
+    public List<String[]> findCampaignsByUserAndRol();
 }

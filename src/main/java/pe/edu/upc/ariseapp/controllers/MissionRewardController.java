@@ -5,10 +5,12 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import pe.edu.upc.ariseapp.dtos.HU55DTO;
 import pe.edu.upc.ariseapp.dtos.MissionRewardDTO;
 import pe.edu.upc.ariseapp.entities.MissionReward;
 import pe.edu.upc.ariseapp.servicesinterfaces.IMissionRewardService;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -56,5 +58,18 @@ public class MissionRewardController {
     @PreAuthorize("hasAnyAuthority('ECOLOGISTA', 'ADMIN')")
     public void eliminar(@PathVariable("idMissionReward") int idMissionReward) {
         mS.delete(idMissionReward);
+    }
+
+    @GetMapping("/HU55")
+    public List<HU55DTO> HU55(){
+        List<HU55DTO> dtos = new ArrayList<>();
+        List<String[]> filaLista = mS.findMissionsWithMultipleRewards();
+        for(String[] fila : filaLista){
+            HU55DTO dto = new HU55DTO();
+            dto.setId_missions(Integer.parseInt(fila[0]));
+            dto.setTotal_rewards(Integer.parseInt(fila[1]));
+            dtos.add(dto);
+        }
+        return dtos;
     }
 }

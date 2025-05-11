@@ -33,5 +33,10 @@ public class MissionRewardServiceImplement implements IMissionRewardService {
     public void delete(int idMissionReward) {
         mR.deleteById(idMissionReward);
     }
-    
+
+    @Override
+    public List<String[]> findMissionsWithMultipleRewards() {
+        return mR.findMissionsWithMultipleRewards();
+    }
+
 }

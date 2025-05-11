@@ -5,10 +5,13 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import pe.edu.upc.ariseapp.dtos.HU56DTO;
+import pe.edu.upc.ariseapp.dtos.HU57DTO;
 import pe.edu.upc.ariseapp.dtos.UsersDTO;
 import pe.edu.upc.ariseapp.entities.Users;
 import pe.edu.upc.ariseapp.servicesinterfaces.IUserService;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -57,5 +60,19 @@ public class UsersControllers {
     @DeleteMapping("/{idUser}")
     public void eliminar(@PathVariable int idUser) {
         uS.delete(idUser);
+    }
+
+    @GetMapping
+    public List<HU57DTO> HU57() {
+        List<HU57DTO> dtos = new ArrayList<>();
+        List<String[]> filaLista  = uS.UsersAndRol();
+        for(String[] columna : filaLista) {
+            HU57DTO dto = new HU57DTO();
+            dto.setId_user(Integer.parseInt(columna[0]));
+            dto.setUsername(columna[1]);
+            dto.setEmail(columna[2]);
+            dto.setRole(columna[3]);
+        }
+        return dtos;
     }
 }

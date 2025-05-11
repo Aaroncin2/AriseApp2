@@ -10,4 +10,5 @@ public interface IUserService {
     public Users listId(int idUser);
     public void update(Users u);
     public void delete(int idUser);
+    public List<String[]> UsersAndRol();
 }

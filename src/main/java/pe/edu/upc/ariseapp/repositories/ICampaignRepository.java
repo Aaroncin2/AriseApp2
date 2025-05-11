@@ -1,9 +1,17 @@
 package pe.edu.upc.ariseapp.repositories;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import pe.edu.upc.ariseapp.entities.Campaign;
 
+import java.util.List;
+
 @Repository
 public interface ICampaignRepository extends JpaRepository<Campaign, Integer> {
+    @Query(value = "SELECT c.id_campaign, c.name_campaign, c.description_campaign, c.date_campaign, u.name_user, r.rol\n" +
+            "FROM campaigns c\n" +
+            "INNER JOIN rols r ON c.id_rol = r.id_rol\n" +
+            "INNER JOIN users u on u.id_user = r.id_rol", nativeQuery = true)
+    List<String[]> findCampaignsByUserAndRol();
 }

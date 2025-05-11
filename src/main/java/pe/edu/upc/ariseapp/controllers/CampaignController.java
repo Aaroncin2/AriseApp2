@@ -6,9 +6,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import pe.edu.upc.ariseapp.dtos.CampaignDTO;
+import pe.edu.upc.ariseapp.dtos.HU56DTO;
 import pe.edu.upc.ariseapp.entities.Campaign;
 import pe.edu.upc.ariseapp.servicesinterfaces.ICampaignService;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -57,5 +60,20 @@ public class CampaignController {
     @PreAuthorize("hasAnyAuthority('ECOLOGISTA', 'ADMIN')")
     public void eliminar(@PathVariable("idCampaign") int idCampaign) {
         cS.delete(idCampaign);
+    }
+
+    @GetMapping("/HU56")
+    public List<HU56DTO> HU56(){
+        List<HU56DTO> dtos = new ArrayList<>();
+        List<String[]> filaLista = cS.findCampaignsByUserAndRol();
+        for(String[] columna : filaLista){
+            HU56DTO dto = new HU56DTO();
+            dto.setId_campaign(Integer.parseInt(columna[0]));
+            dto.setCampaign_name(columna[1]);
+            dto.setCampaign_description(columna[2]);
+            dto.setRole(columna[3]);
+            dtos.add(dto);
+        }
+            return dtos;
     }
 }

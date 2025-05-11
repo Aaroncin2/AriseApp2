@@ -36,4 +36,9 @@ public class CampaignServiceImplement implements ICampaignService {
         cR.deleteById(idCampaign);
     }
 
+    @Override
+    public List<String[]> findCampaignsByUserAndRol() {
+        return cR.findCampaignsByUserAndRol();
+    }
+
 }

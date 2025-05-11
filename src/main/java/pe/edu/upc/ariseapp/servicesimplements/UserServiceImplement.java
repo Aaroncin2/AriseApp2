@@ -37,4 +37,9 @@ public class UserServiceImplement implements IUserService {
     public void delete(int idUser) {
         uR.deleteById(idUser);
     }
+
+    @Override
+    public List<String[]> UsersAndRol() {
+        return uR.UsersAndRol();
+    }
 }

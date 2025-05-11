@@ -9,4 +9,5 @@ public interface IMissionsService {
     public Mission listId(int idMissions);
     public void update(Mission mi);
     public void delete(int idMissions);
+    public List<String[]> missionsByUser();
 }
