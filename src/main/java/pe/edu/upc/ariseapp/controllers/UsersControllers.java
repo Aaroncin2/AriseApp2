@@ -62,7 +62,7 @@ public class UsersControllers {
         uS.delete(idUser);
     }
 
-    @GetMapping
+    @GetMapping("/HU57")
     public List<HU57DTO> HU57() {
         List<HU57DTO> dtos = new ArrayList<>();
         List<String[]> filaLista  = uS.UsersAndRol();
