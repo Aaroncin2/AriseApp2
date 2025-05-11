@@ -31,4 +31,9 @@ public class ForumServiceImplement implements IForumService {
 
     @Override
     public void delete(int idForum) {fR.deleteById(idForum);}
+
+    @Override
+    public List<String[]> forumsxComment() {
+        return fR.forumsxComment();
+    }
 }

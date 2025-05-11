@@ -6,9 +6,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import pe.edu.upc.ariseapp.dtos.ForumDTO;
+import pe.edu.upc.ariseapp.dtos.HU60DTO;
 import pe.edu.upc.ariseapp.entities.Forum;
 import pe.edu.upc.ariseapp.servicesinterfaces.IForumService;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -56,5 +59,19 @@ public class ForumController {
     @PreAuthorize("hasAnyAuthority('ECOLOGISTA', 'ADMIN','VOLUNTARIO')")
     public void eliminar(@PathVariable("idForum") int idForum) {
         fS.delete(idForum);
+    }
+
+    @GetMapping("/HU60")
+    public List<HU60DTO> HU60() {
+        List<HU60DTO> dtos = new ArrayList<>();
+        List<String[]> filaLista = fS.forumsxComment();
+        for(String[] columna : filaLista) {
+            HU60DTO dto = new HU60DTO();
+            dto.setUsername(columna[0]);
+            dto.setContent_forum(columna[1]);
+            dto.setDescription_forum(columna[2]);
+            dtos.add(dto);
+        }
+        return dtos;
     }
 }
