@@ -1,6 +1,7 @@
 package pe.edu.upc.ariseapp.servicesimplements;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import pe.edu.upc.ariseapp.entities.Users;
 import pe.edu.upc.ariseapp.repositories.IUserRepository;
@@ -12,6 +13,8 @@ import java.util.List;
 public class UserServiceImplement implements IUserService {
     @Autowired
     private IUserRepository uR;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Override
     public List<Users> list() {
@@ -20,6 +23,7 @@ public class UserServiceImplement implements IUserService {
 
     @Override
     public void insert(Users user) {
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         uR.save(user);
     }
 

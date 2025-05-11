@@ -5,10 +5,12 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import pe.edu.upc.ariseapp.dtos.HU59DTO;
 import pe.edu.upc.ariseapp.dtos.VolunteeringDTO;
 import pe.edu.upc.ariseapp.entities.Volunteering;
 import pe.edu.upc.ariseapp.servicesinterfaces.IVolunteeringService;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -55,5 +57,21 @@ public class VolunteeringController {
     @PreAuthorize("hasAnyAuthority('ECOLOGISTA', 'ADMIN')")
     public void eliminar(@PathVariable("idVolunteering") int idVolunteering) {
         vS.delete(idVolunteering);
+    }
+
+    @GetMapping("/HU59")
+    public List<HU59DTO> HU59(){
+        List<HU59DTO> dtos = new ArrayList<>();
+        List<String[]> filaLista = vS.userAttendance();
+        for(String[] columna : filaLista){
+            HU59DTO dto = new HU59DTO();
+            dto.setId_volunteering(Integer.parseInt(columna[0]));
+            dto.setName_volunteering(columna[1]);
+            dto.setActivity_volunteering(columna[2]);
+            dto.setUsername(columna[3]);
+            dto.setAttendance_volunteering(Boolean.parseBoolean(columna[4]));
+            dtos.add(dto);
+        }
+        return dtos;
     }
 }

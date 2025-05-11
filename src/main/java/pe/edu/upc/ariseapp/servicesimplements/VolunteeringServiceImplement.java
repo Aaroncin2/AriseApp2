@@ -33,4 +33,10 @@ public class VolunteeringServiceImplement implements IVolunteeringService {
     public void delete(int idVolunteering) {
         vR.deleteById(idVolunteering);
     }
+
+    @Override
+    public List<String[]> userAttendance() {
+        return vR.userAttendance();
+    }
+
 }

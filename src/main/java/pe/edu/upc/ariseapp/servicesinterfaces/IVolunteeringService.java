@@ -11,5 +11,6 @@ public interface IVolunteeringService {
     public Volunteering listId(int idVolunteering);
     public void update(Volunteering v);
     public void delete(int idVolunteering);
+    public List<String[]> userAttendance();
 
 }
