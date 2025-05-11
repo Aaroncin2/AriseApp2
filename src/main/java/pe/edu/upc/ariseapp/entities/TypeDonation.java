@@ -9,7 +9,7 @@ public class TypeDonation {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int idTypeDonation;
 
-    @Column(name = "typeDonation" , nullable = false)
+    @Column(name = "typeDonation" , nullable = false,length = 30)
     private String typeDonation;
 
     @ManyToOne

@@ -1,7 +1,12 @@
 package pe.edu.upc.ariseapp.controllers;
 
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import pe.edu.upc.ariseapp.dtos.HU58DTO;
@@ -29,29 +34,33 @@ public class MissionController {
         }).collect(Collectors.toList());
     }
     @GetMapping("/{idMissions}")
-    public MissionDTO listarId(@PathVariable("idMissions") int idMissions) {
+    public MissionDTO listarId(@Valid @PathVariable("idMissions") @Min(1) @Max(50) int idMissions) {
         ModelMapper m = new ModelMapper();
         MissionDTO dto = m.map(mS.listId(idMissions), MissionDTO.class);
         return dto;
     }
     @PostMapping
     @PreAuthorize("hasAnyAuthority('ECOLOGISTA', 'ADMIN')")
-    public void insertar(@RequestBody MissionDTO mDto){
+    public ResponseEntity<String> registrar(@Valid@RequestBody MissionDTO mDto){
         ModelMapper modelMapper = new ModelMapper();
         Mission mi= modelMapper.map(mDto, Mission.class);
         mS.insert(mi);
+        String mensaje = "Mision registrada correctamente: " + mDto.getNameMission();
+        return new ResponseEntity<>(mensaje, HttpStatus.CREATED);
     }
 
     @PutMapping
     @PreAuthorize("hasAnyAuthority('ECOLOGISTA', 'ADMIN')")
-    public void modificar(@RequestBody MissionDTO mDTO) {
+    public ResponseEntity<String> modificar(@Valid @RequestBody MissionDTO mDTO) {
         ModelMapper m = new ModelMapper();
         Mission mi = m.map(mDTO, Mission.class);
         mS.update(mi);
+        String mensaje = "Mision modificada correctamente: " + mDTO.getNameMission();
+        return new ResponseEntity<>(mensaje, HttpStatus.OK);
     }
     @DeleteMapping("/{idMissions}")
     @PreAuthorize("hasAnyAuthority('ECOLOGISTA', 'ADMIN')")
-    public void eliminar(@PathVariable("idMissions") int idMissions) {
+    public void eliminar(@Valid @PathVariable("idMissions") @Min(1) int idMissions) {
         mS.delete(idMissions);
     }
 

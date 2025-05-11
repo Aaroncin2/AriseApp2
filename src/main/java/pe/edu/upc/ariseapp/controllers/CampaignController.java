@@ -1,8 +1,13 @@
 package pe.edu.upc.ariseapp.controllers;
 
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import pe.edu.upc.ariseapp.dtos.CampaignDTO;
@@ -35,14 +40,16 @@ public class CampaignController {
 
     @PostMapping
     @PreAuthorize("hasAnyAuthority('ECOLOGISTA', 'ADMIN')")
-    public void insertar(@RequestBody CampaignDTO cDto){
+    public ResponseEntity<String> registrar(@Valid @RequestBody CampaignDTO cDto){
         ModelMapper modelMapper = new ModelMapper();
         Campaign c= modelMapper.map(cDto, Campaign.class);
         cS.insert(c);
+        String mensaje = "Campaña registrada correctamente: " + cDto.getNameCampaign();
+        return new ResponseEntity<>(mensaje, HttpStatus.CREATED);
     }
 
     @GetMapping("/{idCampaign}")
-    public CampaignDTO listarId(@PathVariable("idCampaign") int idCampaign) {
+    public CampaignDTO listarId(@Valid @PathVariable("idCampaign") @Min(1) @Max(50) int idCampaign) {
         ModelMapper m = new ModelMapper();
         CampaignDTO dto = m.map(cS.listId(idCampaign), CampaignDTO.class);
         return dto;
@@ -50,15 +57,17 @@ public class CampaignController {
 
     @PutMapping
     @PreAuthorize("hasAnyAuthority('ECOLOGISTA', 'ADMIN')")
-    public void modificar(@RequestBody CampaignDTO cDTO) {
+    public ResponseEntity<String> modificar(@Valid @RequestBody CampaignDTO cDTO) {
         ModelMapper m = new ModelMapper();
         Campaign c = m.map(cDTO, Campaign.class);
         cS.update(c);
+        String mensaje = "Campaña modificada correctamente: " + cDTO.getNameCampaign();
+        return new ResponseEntity<>(mensaje, HttpStatus.OK);
     }
 
     @DeleteMapping("/{idCampaign}")
     @PreAuthorize("hasAnyAuthority('ECOLOGISTA', 'ADMIN')")
-    public void eliminar(@PathVariable("idCampaign") int idCampaign) {
+    public void eliminar(@Valid @PathVariable("idCampaign") @Min(1) int idCampaign) {
         cS.delete(idCampaign);
     }
 

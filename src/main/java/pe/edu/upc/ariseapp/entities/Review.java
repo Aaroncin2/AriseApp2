@@ -9,7 +9,7 @@ public class Review {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int idReview;
 
-    @Column(name = "categoryReview", nullable = false, length=200)
+    @Column(name = "categoryReview", nullable = false, length=30)
     private String categoryReview;
 
     @Column(name = "qualificationReview", nullable = false)

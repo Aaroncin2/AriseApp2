@@ -12,10 +12,10 @@ public class Comment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int idComment;
 
-    @Column(name = "categoryComment",nullable = false,length = 20)
+    @Column(name = "categoryComment",nullable = false,length = 30)
     private String categoryComment;
 
-    @Column(name = "descriptionComment",nullable = false, length = 100)
+    @Column(name = "descriptionComment",nullable = false, length = 200)
     private String descriptionComment;
 
     @Column(name = "dateComment",nullable = false)

@@ -1,10 +1,14 @@
 package pe.edu.upc.ariseapp.dtos;
 
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import pe.edu.upc.ariseapp.entities.Users;
 
 public class RoleDTO {
     private Long idRol;
+    @NotBlank(message = "El nombre del rol no puede estar vacío")
+    @Size(max = 30, message = "El nombre del rol no puede tener más de 30 caracteres")
     private String rol;
     private Users user;
 

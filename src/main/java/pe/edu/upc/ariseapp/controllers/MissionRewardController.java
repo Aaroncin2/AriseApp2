@@ -1,8 +1,13 @@
 package pe.edu.upc.ariseapp.controllers;
 
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import pe.edu.upc.ariseapp.dtos.HU55DTO;
@@ -33,14 +38,16 @@ public class MissionRewardController {
 
     @PostMapping
     @PreAuthorize("hasAnyAuthority('ECOLOGISTA', 'ADMIN')")
-    public void insertar(@RequestBody MissionRewardDTO mDto){
+    public ResponseEntity<String> registrar(@Valid @RequestBody MissionRewardDTO mDto){
         ModelMapper modelMapper = new ModelMapper();
         MissionReward mr= modelMapper.map(mDto, MissionReward.class);
         mS.insert(mr);
+        String mensaje = "Registrado correctamente: " + mDto.getDescription();
+        return new ResponseEntity<>(mensaje, HttpStatus.CREATED);
     }
 
     @GetMapping("/{idMissionReward}")
-    public MissionRewardDTO listarId(@PathVariable("idMissionReward") int idMissionReward) {
+    public MissionRewardDTO listarId(@Valid @PathVariable("idMissionReward") @Min(1) @Max(50) int idMissionReward) {
         ModelMapper m = new ModelMapper();
         MissionRewardDTO dto = m.map(mS.listId(idMissionReward), MissionRewardDTO.class);
         return dto;
@@ -48,15 +55,17 @@ public class MissionRewardController {
 
     @PutMapping
     @PreAuthorize("hasAnyAuthority('ECOLOGISTA', 'ADMIN')")
-    public void modificar(@RequestBody MissionRewardDTO mDTO) {
+    public ResponseEntity<String> modificar(@Valid @RequestBody MissionRewardDTO mDTO) {
         ModelMapper m = new ModelMapper();
         MissionReward mr = m.map(mDTO, MissionReward.class);
         mS.update(mr);
+        String mensaje = "Modificado correctamente: " + mDTO.getDescription();
+        return new ResponseEntity<>(mensaje, HttpStatus.OK);
     }
 
     @DeleteMapping("/{idMissionReward}")
     @PreAuthorize("hasAnyAuthority('ECOLOGISTA', 'ADMIN')")
-    public void eliminar(@PathVariable("idMissionReward") int idMissionReward) {
+    public void eliminar(@Valid @PathVariable("idMissionReward") @Min(1) int idMissionReward) {
         mS.delete(idMissionReward);
     }
 

@@ -1,8 +1,13 @@
 package pe.edu.upc.ariseapp.controllers;
 
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import pe.edu.upc.ariseapp.dtos.HU56DTO;
@@ -27,23 +32,25 @@ public class UsersControllers {
 
     @GetMapping
     @PreAuthorize("hasAnyAuthority('ECOLOGISTA', 'ADMIN')")
-    private List<Users> listar() {
+    public List<UsersDTO> listar() {
         return uS.list().stream().map(x-> {
             ModelMapper modelMapper = new ModelMapper();
-            return modelMapper.map(x,Users.class);
+            return modelMapper.map(x,UsersDTO.class);
         }).collect(Collectors.toList());
     }
 
     @PostMapping
-    public void registrar(@RequestBody UsersDTO uDTO) {
+    public ResponseEntity<String> registrar(@Valid @RequestBody UsersDTO uDTO) {
         ModelMapper m = new ModelMapper();
         Users u = m.map(uDTO, Users.class);
         uS.insert(u);
+        String mensaje = "User registrado correctamente: " + uDTO.getUsername();
+        return new ResponseEntity<>(mensaje, HttpStatus.CREATED);
     }
 
     @GetMapping("/{idUser}")
     @PreAuthorize("hasAnyAuthority('ECOLOGISTA', 'ADMIN')")
-    public UsersDTO listarId(@PathVariable("idUser") int idUser) {
+    public UsersDTO listarId(@Valid @PathVariable("idUser") @Min(1) @Max(50) int idUser) {
         ModelMapper m = new ModelMapper();
         UsersDTO dto = m.map(uS.listId(idUser), UsersDTO.class);
         return dto;
@@ -51,14 +58,16 @@ public class UsersControllers {
 
     @PutMapping
     @PreAuthorize("hasAnyAuthority('ECOLOGISTA', 'ADMIN', 'VOLUNTARIO')")
-    public void modificar(@RequestBody UsersDTO uDTO) {
+    public ResponseEntity<String> modificar(@Valid @RequestBody UsersDTO uDTO) {
         ModelMapper m = new ModelMapper();
         Users u = m.map(uDTO, Users.class);
         uS.update(u);
+        String mensaje = "Usuario modificado correctamente: " + uDTO.getUsername();
+        return new ResponseEntity<>(mensaje, HttpStatus.OK);
     }
 
     @DeleteMapping("/{idUser}")
-    public void eliminar(@PathVariable int idUser) {
+    public void eliminar(@PathVariable ("idUser") @Min(1) int idUser) {
         uS.delete(idUser);
     }
 

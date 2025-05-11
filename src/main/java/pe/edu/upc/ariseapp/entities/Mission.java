@@ -9,10 +9,10 @@ public class Mission {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int idMission;
 
-    @Column(name ="nameMission",nullable = false,length=50)
+    @Column(name ="nameMission",nullable = false,length=30)
     private String nameMission;
 
-    @Column(name ="descriptionMission", nullable = false,length=50)
+    @Column(name ="descriptionMission", nullable = false,length=200)
     private String descriptionMission;
 
     @ManyToOne

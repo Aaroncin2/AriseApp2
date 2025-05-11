@@ -9,10 +9,10 @@ public class Donation {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int idDonation;
 
-    @Column(name="nameDonation", nullable = false, length = 50)
+    @Column(name="nameDonation", nullable = false, length = 30)
     private String nameDonation;
 
-    @Column(name = "donation" , nullable = false, length = 50)
+    @Column(name = "donation" , nullable = false, length = 30)
     private String donation;
 
     public Donation() {

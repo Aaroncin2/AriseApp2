@@ -1,9 +1,16 @@
 package pe.edu.upc.ariseapp.dtos;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
+
 import java.time.LocalDate;
 
 public class ForumDTO {
     private int idForum;
+    @NotBlank(message = "El nombre del foro no puede estar vacío")
+    @Size(max = 30, message = "El nombre del foro no puede tener más de 30 caracteres")
     private String nameForum;
+    @NotBlank(message = "La descripcion del foro no puede estar vacío")
+    @Size(max = 200, message = "La descripcion  del foro no puede tener más de 200 caracteres")
     private String contentForum;
     private LocalDate dateForum;
 
