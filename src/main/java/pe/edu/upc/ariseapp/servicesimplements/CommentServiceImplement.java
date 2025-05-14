@@ -43,5 +43,4 @@ public class CommentServiceImplement implements ICommentService {
     public List<String[]> countCommentsByUsers() {
         return cR.countCommentsByUsers();
     }
-
 }

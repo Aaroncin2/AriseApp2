@@ -21,5 +21,4 @@ public interface ICommentRepository extends JpaRepository<Comment, Integer> {
             "GROUP BY u.username;", nativeQuery = true)
     public List<String[]> countCommentsByUsers();
 
-
 }

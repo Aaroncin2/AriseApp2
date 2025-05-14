@@ -21,7 +21,6 @@ public class Role implements Serializable {
     @JsonBackReference
     private Users user;
 
-
     public Users getUser() {
         return user;
     }
