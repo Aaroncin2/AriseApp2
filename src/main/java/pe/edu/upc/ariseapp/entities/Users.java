@@ -1,5 +1,6 @@
 package pe.edu.upc.ariseapp.entities;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
@@ -19,8 +20,8 @@ public class Users implements Serializable {
     private String password;
     private Boolean enabled;
     private String email;
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinColumn(name = "idUser")
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JsonManagedReference
     private List<Role> roles;
 
     public Long getIdUser() {

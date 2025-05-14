@@ -1,6 +1,5 @@
 package pe.edu.upc.ariseapp.dtos;
 
-import java.util.Date;
 
 public class HU56DTO {
     private int id_campaign;

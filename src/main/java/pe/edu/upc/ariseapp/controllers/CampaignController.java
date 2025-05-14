@@ -80,7 +80,8 @@ public class CampaignController {
             dto.setId_campaign(Integer.parseInt(columna[0]));
             dto.setCampaign_name(columna[1]);
             dto.setCampaign_description(columna[2]);
-            dto.setRole(columna[3]);
+            dto.setUsername(columna[3]);
+            dto.setRole(columna[4]);
             dtos.add(dto);
         }
             return dtos;

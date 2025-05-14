@@ -12,7 +12,7 @@ import java.util.List;
 public interface ICommentRepository extends JpaRepository<Comment, Integer> {
     @Query(value = "SELECT u.username, c.category_comment, c.description_comment\n" +
             "FROM comment c INNER JOIN users u ON u.id_user = c.id_user\n" +
-            "WHERE u.username LIKE '%username%'", nativeQuery = true)
+            "WHERE u.username LIKE CONCAT('%', :username, '%')", nativeQuery = true)
     public List<String[]> comentariosByNombreUsuario(@Param("username") String username);
 
     @Query(value = "SELECT u.username, COUNT(c.id_comment) AS total_comentarios\n" +

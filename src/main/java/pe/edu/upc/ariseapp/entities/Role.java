@@ -1,11 +1,12 @@
 package pe.edu.upc.ariseapp.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
 
 @Entity
-@Table(name = "roles", uniqueConstraints = {@UniqueConstraint(columnNames = {"idUser", "rol"})})
+@Table(name = "roles", uniqueConstraints = {@UniqueConstraint(columnNames = {"user_id", "rol"})})
 public class Role implements Serializable {
 
     @Id
@@ -17,6 +18,7 @@ public class Role implements Serializable {
 
     @ManyToOne
     @JoinColumn(name = "idUser", nullable = false)
+    @JsonBackReference
     private Users user;
 
 

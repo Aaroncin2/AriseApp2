@@ -64,15 +64,15 @@ public class WebSecurityConfig {
                         .requestMatchers(antMatcher("/login")).permitAll()
                         .requestMatchers(AUTH_WHITELIST).permitAll()
                         .requestMatchers(HttpMethod.GET,
-                                "/campaigns",
-                                "/comments",
-                                "/donations",
-                                "/forums",
-                                "/missions",
-                                "/missionRewards",
-                                "/reviews",
-                                "/rewards",
-                                "/volunteerings"
+                                "/campaigns/**",
+                                "/comments/**",
+                                "/donations/**",
+                                "/forums/**",
+                                "/missions/**",
+                                "/missionRewards/**",
+                                "/reviews/**",
+                                "/rewards/**",
+                                "/volunteerings/**"
                         ).permitAll()
                         .anyRequest().authenticated()
                 )
