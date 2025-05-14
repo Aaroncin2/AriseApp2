@@ -81,6 +81,7 @@ public class UsersControllers {
             dto.setUsername(columna[1]);
             dto.setEmail(columna[2]);
             dto.setRole(columna[3]);
+            dtos.add(dto);
         }
         return dtos;
     }
