@@ -72,7 +72,7 @@ public class CommentController {
     }
 
     @GetMapping("/HU61")
-    public List<HU61DTO> HU56(@Param("username") String username) {
+    public List<HU61DTO> HU61(@Param("username") String username) {
         List<HU61DTO> dtos = new ArrayList<>();
         List<String[]> filaLista = cS.comentariosByNombreUsuario(username);
         for (String[] columna : filaLista) {
@@ -80,6 +80,7 @@ public class CommentController {
             dto.setUsername(columna[0]);
             dto.setCategory_comment(columna[1]);
             dto.setDescription(columna[2]);
+            dtos.add(dto);
         }
         return dtos;
     }
@@ -95,5 +96,4 @@ public class CommentController {
         }
         return dtos;
     }
-
 }

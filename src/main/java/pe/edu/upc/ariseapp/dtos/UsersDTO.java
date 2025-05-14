@@ -20,7 +20,7 @@ public class UsersDTO {
     @NotBlank(message = "El email no puede estar vacío")
     @NotNull(message = "El email es obligatorio")
     private String email;
-    //private List<Role> roles;
+    private List<Role> roles;
 
     public Long getIdUser() {
         return idUser;
@@ -62,7 +62,7 @@ public class UsersDTO {
         this.email = email;
     }
 
-    //public List<Role> getRoles() {return roles;}
+    public List<Role> getRoles() {return roles;}
 
-    //public void setRoles(List<Role> roles) {this.roles = roles;}
+    public void setRoles(List<Role> roles) {this.roles = roles;}
 }
