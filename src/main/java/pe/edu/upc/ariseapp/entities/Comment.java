@@ -9,7 +9,7 @@ import java.time.LocalDate;
 @Table(name = "Comment")
 public class Comment {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int idComment;
 
     @Column(name = "categoryComment",nullable = false,length = 30)

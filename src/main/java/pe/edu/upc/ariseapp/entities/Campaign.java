@@ -6,7 +6,7 @@ import java.time.LocalDate;
 @Table(name="Campaign")
 public class Campaign {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int idCampaign;
 
     @Column(name="nameCampaign", nullable = false,length = 30)
