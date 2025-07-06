@@ -22,6 +22,22 @@ public class CommentDTO {
     private Users users;
     private Forum forum;
 
+    public Users getUsers() {
+        return users;
+    }
+
+    public void setUsers(Users users) {
+        this.users = users;
+    }
+
+    public Forum getForum() {
+        return forum;
+    }
+
+    public void setForum(Forum forum) {
+        this.forum = forum;
+    }
+
     public int getIdComment() {
         return idComment;
     }

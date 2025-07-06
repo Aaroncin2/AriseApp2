@@ -38,16 +38,15 @@ public class MissionRewardController {
 
     @PostMapping
     @PreAuthorize("hasAnyAuthority('ECOLOGISTA', 'ADMIN')")
-    public ResponseEntity<String> registrar(@Valid @RequestBody MissionRewardDTO mDto){
+    public void registrar( @RequestBody MissionRewardDTO mDto){
         ModelMapper modelMapper = new ModelMapper();
         MissionReward mr= modelMapper.map(mDto, MissionReward.class);
         mS.insert(mr);
-        String mensaje = "Registrado correctamente: " + mDto.getDescription();
-        return new ResponseEntity<>(mensaje, HttpStatus.CREATED);
+
     }
 
     @GetMapping("/{idMissionReward}")
-    public MissionRewardDTO listarId(@Valid @PathVariable("idMissionReward") @Min(1) @Max(50) int idMissionReward) {
+    public MissionRewardDTO listarId( @PathVariable("idMissionReward") @Min(1) @Max(50) int idMissionReward) {
         ModelMapper m = new ModelMapper();
         MissionRewardDTO dto = m.map(mS.listId(idMissionReward), MissionRewardDTO.class);
         return dto;
@@ -55,21 +54,21 @@ public class MissionRewardController {
 
     @PutMapping
     @PreAuthorize("hasAnyAuthority('ECOLOGISTA', 'ADMIN')")
-    public ResponseEntity<String> modificar(@Valid @RequestBody MissionRewardDTO mDTO) {
+    public void modificar( @RequestBody MissionRewardDTO mDTO) {
         ModelMapper m = new ModelMapper();
         MissionReward mr = m.map(mDTO, MissionReward.class);
         mS.update(mr);
-        String mensaje = "Modificado correctamente: " + mDTO.getDescription();
-        return new ResponseEntity<>(mensaje, HttpStatus.OK);
+
     }
 
     @DeleteMapping("/{idMissionReward}")
     @PreAuthorize("hasAnyAuthority('ECOLOGISTA', 'ADMIN')")
-    public void eliminar(@Valid @PathVariable("idMissionReward") @Min(1) int idMissionReward) {
+    public void eliminar( @PathVariable("idMissionReward") @Min(1) int idMissionReward) {
         mS.delete(idMissionReward);
     }
 
     @GetMapping("/HU55")
+    @PreAuthorize("hasAnyAuthority('ECOLOGISTA', 'ADMIN', 'VOLUNATRIO')")
     public List<HU55DTO> HU55(){
         List<HU55DTO> dtos = new ArrayList<>();
         List<String[]> filaLista = mS.findMissionsWithMultipleRewards();

@@ -38,17 +38,15 @@ public class RoleController {
 
     @PostMapping
     @PreAuthorize("hasAuthority('ADMIN')")
-    public ResponseEntity<String> registrar(@Valid @RequestBody RoleDTO rDTO) {
+    public void registrar( @RequestBody RoleDTO rDTO) {
         ModelMapper m = new ModelMapper();
         Role r = m.map(rDTO, Role.class);
         rS.insert(r);
-        String mensaje = "Rol registrado correctamente: " + rDTO.getRol();
-        return new ResponseEntity<>(mensaje, HttpStatus.CREATED);
     }
 
     @GetMapping("/{idRol}")
     @PreAuthorize("hasAuthority('ADMIN')")
-    public RoleDTO listarId(@Valid @PathVariable("idRol") @Min(1) @Max(50) int idRol) {
+    public RoleDTO listarId( @PathVariable("idRol") @Min(1) @Max(50) int idRol) {
         ModelMapper m = new ModelMapper();
         RoleDTO dto = m.map(rS.listId(idRol), RoleDTO.class);
         return dto;
@@ -56,17 +54,15 @@ public class RoleController {
 
     @PutMapping
     @PreAuthorize("hasAuthority('ADMIN')")
-    public ResponseEntity<String> modificar(@Valid @RequestBody RoleDTO rDTO) {
+    public void modificar( @RequestBody RoleDTO rDTO) {
         ModelMapper m = new ModelMapper();
         Role r = m.map(rDTO, Role.class);
         rS.update(r);
-        String mensaje = "Usuario modificado correctamente: " + rDTO.getRol();
-        return new ResponseEntity<>(mensaje, HttpStatus.OK);
     }
 
     @DeleteMapping("/{idRol}")
-    @PreAuthorize("hasAuthority('ADMIN')")
-    public void eliminar(@Valid @PathVariable @Min(1) int idRol) {
+   @PreAuthorize("hasAuthority('ADMIN')")
+    public void eliminar(@PathVariable int idRol) {
         rS.delete(idRol);
     }
 }

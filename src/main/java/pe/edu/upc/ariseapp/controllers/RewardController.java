@@ -36,16 +36,15 @@ public class RewardController {
 
     @PostMapping
     @PreAuthorize("hasAnyAuthority('ECOLOGISTA', 'ADMIN')")
-    public ResponseEntity<String> registrar(@Valid @RequestBody RewardDTO rDTO){
+    public void registrar( @RequestBody RewardDTO rDTO){
         ModelMapper modelMapper = new ModelMapper();
         Reward re= modelMapper.map(rDTO, Reward.class);
         rS.insert(re);
-        String mensaje = "Recompensa registrada correctamente: " + rDTO.getNameReward();
-        return new ResponseEntity<>(mensaje, HttpStatus.CREATED);
+
     }
 
     @GetMapping("/{idReward}")
-    public RewardDTO listarId(@Valid @PathVariable("idReward") @Min(1) @Max(50) int idReward) {
+    public RewardDTO listarId( @PathVariable("idReward") @Min(1) @Max(50) int idReward) {
         ModelMapper m = new ModelMapper();
         RewardDTO dto = m.map(rS.listId(idReward), RewardDTO.class);
         return dto;
@@ -53,17 +52,16 @@ public class RewardController {
 
     @PutMapping
     @PreAuthorize("hasAnyAuthority('ECOLOGISTA', 'ADMIN')")
-    public ResponseEntity<String> modificar(@Valid @RequestBody RewardDTO rDTO) {
+    public void modificar(@Valid @RequestBody RewardDTO rDTO) {
         ModelMapper m = new ModelMapper();
         Reward re = m.map(rDTO, Reward.class);
         rS.update(re);
-        String mensaje = "Recompensa modificado correctamente: " + rDTO.getNameReward();
-        return new ResponseEntity<>(mensaje, HttpStatus.OK);
+
     }
 
     @DeleteMapping("/{idReward}")
     @PreAuthorize("hasAnyAuthority('ECOLOGISTA', 'ADMIN')")
-    public void eliminar(@Valid @PathVariable("idReward") @Min(1) int idReward) {
+    public void eliminar( @PathVariable("idReward") @Min(1) int idReward) {
         rS.delete(idReward);
     }
 }

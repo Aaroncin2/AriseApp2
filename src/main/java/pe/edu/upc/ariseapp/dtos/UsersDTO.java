@@ -9,16 +9,9 @@ import java.util.List;
 
 public class UsersDTO {
     private Long idUser;
-    @NotBlank(message = "El nombre no puede estar vacío")
-    @Size(max = 30, message = "El nombre no puede tener más de 30 caracteres")
     private String username;
-    @NotBlank(message = "La contraseña no puede estar vacío")
-    @Size(max = 200, message = "El nombre no puede tener más de 200 caracteres")
     private String password;
-    @NotNull(message = "El campo es obligatorio")
     private Boolean enabled;
-    @NotBlank(message = "El email no puede estar vacío")
-    @NotNull(message = "El email es obligatorio")
     private String email;
     private List<Role> roles;
 

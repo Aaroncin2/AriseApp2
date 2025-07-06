@@ -7,10 +7,8 @@ import pe.edu.upc.ariseapp.entities.Users;
 
 public class RoleDTO {
     private Long idRol;
-    @NotBlank(message = "El nombre del rol no puede estar vacío")
-    @Size(max = 30, message = "El nombre del rol no puede tener más de 30 caracteres")
     private String rol;
-    private Users user;
+    private UsersDTO user;
 
     public Long getIdRol() {
         return idRol;
@@ -28,11 +26,11 @@ public class RoleDTO {
         this.rol = rol;
     }
 
-    public Users getUser() {
+    public UsersDTO getUser() {
         return user;
     }
 
-    public void setUser(Users user) {
+    public void setUser(UsersDTO user) {
         this.user = user;
     }
 }

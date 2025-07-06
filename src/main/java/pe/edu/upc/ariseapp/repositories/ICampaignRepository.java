@@ -12,6 +12,7 @@ public interface ICampaignRepository extends JpaRepository<Campaign, Integer> {
     @Query(value = "SELECT c.id_campaign, c.name_campaign, c.description_campaign, u.username, r.rol\n" +
             "FROM campaign c\n" +
             "INNER JOIN roles r ON c.id_rol = r.id_rol\n" +
-            "INNER JOIN users u on r.id_user = u.id_user", nativeQuery = true)
+            "INNER JOIN users u on r.id_user = u.id_user"
+            , nativeQuery = true)
     List<String[]> findCampaignsByUserAndRol();
 }

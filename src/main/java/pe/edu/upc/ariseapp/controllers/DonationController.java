@@ -36,16 +36,15 @@ public class DonationController {
 
     @PostMapping
     @PreAuthorize("hasAnyAuthority('ECOLOGISTA', 'ADMIN','VOLUNTARIO')")
-    public ResponseEntity<String> registar(@Valid @RequestBody DonationDTO dDto){
+    public void registar( @RequestBody DonationDTO dDto){
         ModelMapper modelMapper = new ModelMapper();
         Donation d= modelMapper.map(dDto, Donation.class);
         dS.insert(d);
-        String mensaje = "Donacion registrada correctamente: " + dDto.getNameDonation();
-        return new ResponseEntity<>(mensaje, HttpStatus.CREATED);
+
     }
 
     @GetMapping("/{idDonation}")
-    public DonationDTO listarId(@Valid @PathVariable("idDonation") @Min(1) @Max(50) int idDonation) {
+    public DonationDTO listarId( @PathVariable("idDonation")int idDonation) {
         ModelMapper m = new ModelMapper();
         DonationDTO dto = m.map(dS.listId(idDonation), DonationDTO.class);
         return dto;
@@ -53,17 +52,16 @@ public class DonationController {
 
     @PutMapping
     @PreAuthorize("hasAnyAuthority('ECOLOGISTA', 'ADMIN','VOLUNTARIO')")
-    public ResponseEntity<String> modificar(@Valid @RequestBody DonationDTO dDTO) {
+    public void modificar( @RequestBody DonationDTO dDTO) {
         ModelMapper m = new ModelMapper();
         Donation d = m.map(dDTO, Donation.class);
         dS.update(d);
-        String mensaje = "Donacion modificada correctamente: " + dDTO.getNameDonation();
-        return new ResponseEntity<>(mensaje, HttpStatus.OK);
+
     }
 
     @DeleteMapping("/{idDonation}")
     @PreAuthorize("hasAnyAuthority('ECOLOGISTA', 'ADMIN','VOLUNTARIO')")
-    public void eliminar(@Valid @PathVariable("idDonation") @Min(1) int idDonation) {
+    public void eliminar( @PathVariable("idDonation")  int idDonation) {
         dS.delete(idDonation);
     }
     

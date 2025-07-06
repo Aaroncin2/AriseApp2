@@ -36,16 +36,15 @@ public class ReviewController {
 
     @PostMapping
     @PreAuthorize("hasAnyAuthority('ECOLOGISTA', 'ADMIN')")
-    public ResponseEntity<String> registrar(@Valid @RequestBody ReviewDTO rDto){
+    public void registrar( @RequestBody ReviewDTO rDto){
         ModelMapper modelMapper = new ModelMapper();
         Review r = modelMapper.map(rDto, Review.class);
         rS.insert(r);
-        String mensaje = "Review registrado correctamente: " + rDto.getCategoryReview();
-        return new ResponseEntity<>(mensaje, HttpStatus.CREATED);
+
     }
 
     @GetMapping("/{idReview}")
-    public ReviewDTO listarId(@Valid @PathVariable("idReview") @Min(1) @Max(50) int idReview) {
+    public ReviewDTO listarId( @PathVariable("idReview") @Min(1) @Max(50) int idReview) {
         ModelMapper m = new ModelMapper();
         ReviewDTO dto = m.map(rS.listId(idReview), ReviewDTO.class);
         return dto;
@@ -53,18 +52,17 @@ public class ReviewController {
 
     @PutMapping
     @PreAuthorize("hasAnyAuthority('ECOLOGISTA', 'ADMIN')")
-    public ResponseEntity<String> modificar(@Valid @RequestBody ReviewDTO rDTO) {
+    public void modificar( @RequestBody ReviewDTO rDTO) {
         ModelMapper m = new ModelMapper();
         Review r = m.map(rDTO, Review.class);
         rS.update(r);
-        String mensaje = "Review modificado correctamente: " + rDTO.getCategoryReview();
-        return new ResponseEntity<>(mensaje, HttpStatus.OK);
+
 
     }
 
     @DeleteMapping("/{idReview}")
     @PreAuthorize("hasAnyAuthority('ECOLOGISTA', 'ADMIN')")
-    public void eliminar(@Valid @PathVariable("idReview") @Min(1) int idReview) {
+    public void eliminar( @PathVariable("idReview") @Min(1) int idReview) {
         rS.delete(idReview);
     }
 }

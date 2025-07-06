@@ -2,7 +2,7 @@ package pe.edu.upc.ariseapp.dtos;
 
 
 public class HU56DTO {
-    private int id_campaign;
+        private int id_campaign;
     private String campaign_name;
     private String campaign_description;
     private String username;

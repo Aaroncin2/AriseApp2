@@ -1,5 +1,6 @@
 package pe.edu.upc.ariseapp.controllers;
 
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
@@ -18,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@SecurityRequirement(name = "bearerAuth")
 @RestController
 @RequestMapping("/missions")
 public class MissionController {
@@ -41,26 +43,23 @@ public class MissionController {
     }
     @PostMapping
     @PreAuthorize("hasAnyAuthority('ECOLOGISTA', 'ADMIN')")
-    public ResponseEntity<String> registrar(@Valid@RequestBody MissionDTO mDto){
+    public void registrar(@RequestBody MissionDTO mDto){
         ModelMapper modelMapper = new ModelMapper();
         Mission mi= modelMapper.map(mDto, Mission.class);
         mS.insert(mi);
-        String mensaje = "Mision registrada correctamente: " + mDto.getNameMission();
-        return new ResponseEntity<>(mensaje, HttpStatus.CREATED);
     }
 
     @PutMapping
     @PreAuthorize("hasAnyAuthority('ECOLOGISTA', 'ADMIN')")
-    public ResponseEntity<String> modificar(@Valid @RequestBody MissionDTO mDTO) {
+    public void modificar( @RequestBody MissionDTO mDTO) {
         ModelMapper m = new ModelMapper();
         Mission mi = m.map(mDTO, Mission.class);
         mS.update(mi);
-        String mensaje = "Mision modificada correctamente: " + mDTO.getNameMission();
-        return new ResponseEntity<>(mensaje, HttpStatus.OK);
+
     }
     @DeleteMapping("/{idMissions}")
     @PreAuthorize("hasAnyAuthority('ECOLOGISTA', 'ADMIN')")
-    public void eliminar(@Valid @PathVariable("idMissions") @Min(1) int idMissions) {
+    public void eliminar(@PathVariable("idMissions") @Min(1) int idMissions) {
         mS.delete(idMissions);
     }
 
@@ -70,8 +69,7 @@ public class MissionController {
         List<String[]> filaLista = mS.missionsByUser();
         for(String[] columna : filaLista){
             HU58DTO dto = new HU58DTO();
-            dto.setUsername(columna[0]);
-            dto.setTotal_missions(Integer.parseInt(columna[1]));
+            dto.setTotal_missions(Integer.parseInt(columna[0]));
             dtos.add(dto);
         }
         return dtos;

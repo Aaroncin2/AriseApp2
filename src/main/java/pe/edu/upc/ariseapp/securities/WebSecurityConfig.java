@@ -63,17 +63,6 @@ public class WebSecurityConfig {
                 .authorizeHttpRequests(req -> req
                         .requestMatchers(antMatcher("/login")).permitAll()
                         .requestMatchers(AUTH_WHITELIST).permitAll()
-                        .requestMatchers(HttpMethod.GET,
-                                "/campaigns/**",
-                                "/comments/**",
-                                "/donations/**",
-                                "/forums/**",
-                                "/missions/**",
-                                "/missionRewards/**",
-                                "/reviews/**",
-                                "/rewards/**",
-                                "/volunteerings/**"
-                        ).permitAll()
                         .anyRequest().authenticated()
                 )
                 .httpBasic(Customizer.withDefaults())
@@ -91,6 +80,11 @@ public class WebSecurityConfig {
             "/v3/api-docs.yaml",
             "/swagger-ui/**",
             "/swagger-ui.html",
+
+
+
+
+
 
     };
 }

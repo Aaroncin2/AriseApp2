@@ -40,16 +40,15 @@ public class CommentController {
 
     @PostMapping
     @PreAuthorize("hasAnyAuthority('ECOLOGISTA', 'ADMIN','VOLUNTARIO')")
-    public ResponseEntity<String> registrar(@Valid @RequestBody CommentDTO cDto){
+    public void registrar(@RequestBody CommentDTO cDto){
         ModelMapper modelMapper = new ModelMapper();
         Comment c= modelMapper.map(cDto, Comment.class);
         cS.insert(c);
-        String mensaje = "Comentario registrado correctamente: " + cDto.getCategoryComment();
-        return new ResponseEntity<>(mensaje, HttpStatus.CREATED);
+
     }
 
     @GetMapping("/{idComment}")
-    public CommentDTO listarId(@Valid @PathVariable("idComment") @Min(1) @Max(50) int idComment) {
+    public CommentDTO listarId(@PathVariable("idComment") @Min(1) @Max(50) int idComment) {
         ModelMapper m = new ModelMapper();
         CommentDTO dto = m.map(cS.listId(idComment), CommentDTO.class);
         return dto;
@@ -57,17 +56,16 @@ public class CommentController {
 
     @PutMapping
     @PreAuthorize("hasAnyAuthority('ECOLOGISTA', 'ADMIN','VOLUNTARIO')")
-    public ResponseEntity<String> modificar(@Valid @RequestBody CommentDTO cDTO) {
+    public void modificar( @RequestBody CommentDTO cDTO) {
         ModelMapper m = new ModelMapper();
         Comment c = m.map(cDTO, Comment.class);
         cS.update(c);
-        String mensaje = "Comentario modificado correctamente: " + cDTO.getCategoryComment();
-        return new ResponseEntity<>(mensaje, HttpStatus.OK);
+
     }
     
     @DeleteMapping("/{idComment}")
     @PreAuthorize("hasAnyAuthority('ECOLOGISTA', 'ADMIN','VOLUNTARIO')")
-    public void eliminar(@Valid @PathVariable("idComment") @Min(1) int idComment) {
+    public void eliminar( @PathVariable("idComment") @Min(1) int idComment) {
         cS.delete(idComment);
     }
 
