@@ -32,11 +32,13 @@ public class Comment {
     public Comment() {
     }
 
-    public Comment(int idComment, String categoryComment, String descriptionComment, LocalDate dateComment) {
+    public Comment(int idComment, String categoryComment, String descriptionComment, Users users, LocalDate dateComment, Forum forum) {
         this.idComment = idComment;
         this.categoryComment = categoryComment;
         this.descriptionComment = descriptionComment;
+        this.users = users;
         this.dateComment = dateComment;
+        this.forum = forum;
     }
 
     public int getIdComment() {
@@ -71,4 +73,19 @@ public class Comment {
         this.dateComment = dateComment;
     }
 
+    public Users getUsers() {
+        return users;
+    }
+
+    public void setUsers(Users users) {
+        this.users = users;
+    }
+
+    public Forum getForum() {
+        return forum;
+    }
+
+    public void setForum(Forum forum) {
+        this.forum = forum;
+    }
 }

@@ -20,7 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@SecurityRequirement(name = "bearerAuth")
+//@SecurityRequirement(name = "bearerAuth")
 @RestController
 @RequestMapping("/users")
 public class UsersControllers {
@@ -40,17 +40,15 @@ public class UsersControllers {
     }
 
     @PostMapping
-    public ResponseEntity<String> registrar(@Valid @RequestBody UsersDTO uDTO) {
+    public void registrar( @RequestBody UsersDTO uDTO) {
         ModelMapper m = new ModelMapper();
         Users u = m.map(uDTO, Users.class);
         uS.insert(u);
-        String mensaje = "User registrado correctamente: " + uDTO.getUsername();
-        return new ResponseEntity<>(mensaje, HttpStatus.CREATED);
     }
 
     @GetMapping("/{idUser}")
     @PreAuthorize("hasAnyAuthority('ECOLOGISTA', 'ADMIN')")
-    public UsersDTO listarId(@Valid @PathVariable("idUser") @Min(1) @Max(50) int idUser) {
+    public UsersDTO listarId( @PathVariable("idUser") @Min(1) @Max(50) int idUser) {
         ModelMapper m = new ModelMapper();
         UsersDTO dto = m.map(uS.listId(idUser), UsersDTO.class);
         return dto;
@@ -58,12 +56,10 @@ public class UsersControllers {
 
     @PutMapping
     @PreAuthorize("hasAnyAuthority('ECOLOGISTA', 'ADMIN', 'VOLUNTARIO')")
-    public ResponseEntity<String> modificar(@Valid @RequestBody UsersDTO uDTO) {
+    public void modificar(@RequestBody UsersDTO uDTO) {
         ModelMapper m = new ModelMapper();
         Users u = m.map(uDTO, Users.class);
         uS.update(u);
-        String mensaje = "Usuario modificado correctamente: " + uDTO.getUsername();
-        return new ResponseEntity<>(mensaje, HttpStatus.OK);
     }
 
     @DeleteMapping("/{idUser}")

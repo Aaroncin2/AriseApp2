@@ -20,7 +20,7 @@ public class Users implements Serializable {
     private String password;
     private Boolean enabled;
     private String email;
-    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     @JsonManagedReference
     private List<Role> roles;
 

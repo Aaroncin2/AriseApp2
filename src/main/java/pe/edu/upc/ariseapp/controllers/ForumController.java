@@ -40,16 +40,15 @@ public class ForumController {
 
     @PostMapping
     @PreAuthorize("hasAnyAuthority('ECOLOGISTA', 'ADMIN', 'VOLUNTARIO')")
-    public ResponseEntity<String> registrar(@Valid @RequestBody ForumDTO fDTO){
+    public void registrar( @RequestBody ForumDTO fDTO){
         ModelMapper modelMapper = new ModelMapper();
         Forum f= modelMapper.map(fDTO, Forum.class);
         fS.insert(f);
-        String mensaje = "Foro registrado correctamente: " + fDTO.getNameForum();
-        return new ResponseEntity<>(mensaje, HttpStatus.CREATED);
+
     }
 
     @GetMapping("/{idForum}")
-    public ForumDTO listarId(@Valid @PathVariable("idForum") @Min(1) @Max(50) int idForum) {
+    public ForumDTO listarId( @PathVariable("idForum") int idForum) {
         ModelMapper m = new ModelMapper();
         ForumDTO dto = m.map(fS.listId(idForum), ForumDTO.class);
         return dto;
@@ -57,12 +56,11 @@ public class ForumController {
 
     @PutMapping
     @PreAuthorize("hasAnyAuthority('ECOLOGISTA', 'ADMIN','VOLUNTARIO')")
-    public ResponseEntity<String> modificar(@Valid @RequestBody ForumDTO fDTO) {
+    public void modificar( @RequestBody ForumDTO fDTO) {
         ModelMapper m = new ModelMapper();
         Forum f = m.map(fDTO, Forum.class);
         fS.update(f);
-        String mensaje = "Foro modificado correctamente: " + fDTO.getNameForum();
-        return new ResponseEntity<>(mensaje, HttpStatus.OK);
+
     }
 
     @DeleteMapping("/{idForum}")

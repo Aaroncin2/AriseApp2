@@ -40,16 +40,14 @@ public class CampaignController {
 
     @PostMapping
     @PreAuthorize("hasAnyAuthority('ECOLOGISTA', 'ADMIN')")
-    public ResponseEntity<String> registrar(@Valid @RequestBody CampaignDTO cDto){
+    public void registrar( @RequestBody CampaignDTO cDto){
         ModelMapper modelMapper = new ModelMapper();
         Campaign c= modelMapper.map(cDto, Campaign.class);
         cS.insert(c);
-        String mensaje = "Campaña registrada correctamente: " + cDto.getNameCampaign();
-        return new ResponseEntity<>(mensaje, HttpStatus.CREATED);
     }
 
     @GetMapping("/{idCampaign}")
-    public CampaignDTO listarId(@Valid @PathVariable("idCampaign") @Min(1) @Max(50) int idCampaign) {
+    public CampaignDTO listarId( @PathVariable("idCampaign") @Min(1) @Max(50) int idCampaign) {
         ModelMapper m = new ModelMapper();
         CampaignDTO dto = m.map(cS.listId(idCampaign), CampaignDTO.class);
         return dto;
@@ -57,17 +55,16 @@ public class CampaignController {
 
     @PutMapping
     @PreAuthorize("hasAnyAuthority('ECOLOGISTA', 'ADMIN')")
-    public ResponseEntity<String> modificar(@Valid @RequestBody CampaignDTO cDTO) {
+    public void modificar( @RequestBody CampaignDTO cDTO) {
         ModelMapper m = new ModelMapper();
         Campaign c = m.map(cDTO, Campaign.class);
         cS.update(c);
-        String mensaje = "Campaña modificada correctamente: " + cDTO.getNameCampaign();
-        return new ResponseEntity<>(mensaje, HttpStatus.OK);
+
     }
 
     @DeleteMapping("/{idCampaign}")
     @PreAuthorize("hasAnyAuthority('ECOLOGISTA', 'ADMIN')")
-    public void eliminar(@Valid @PathVariable("idCampaign") @Min(1) int idCampaign) {
+    public void eliminar( @PathVariable("idCampaign") @Min(1) int idCampaign) {
         cS.delete(idCampaign);
     }
 

@@ -38,16 +38,15 @@ public class VolunteeringController {
 
     @PostMapping
     @PreAuthorize("hasAnyAuthority('ECOLOGISTA', 'ADMIN')")
-    public ResponseEntity<String> registrar(@Valid @RequestBody VolunteeringDTO vDto){
+    public void registrar( @RequestBody VolunteeringDTO vDto){
         ModelMapper modelMapper = new ModelMapper();
         Volunteering v = modelMapper.map(vDto, Volunteering.class);
         vS.insert(v);
-        String mensaje = "Voluntariado registrado correctamente: " + vDto.getNameVolunteering();
-        return new ResponseEntity<>(mensaje, HttpStatus.CREATED);
+
     }
 
     @GetMapping("/{idVolunteering}")
-    public VolunteeringDTO listarId(@Valid @PathVariable("idVolunteering") @Min(1) @Max(50) int idVolunteering) {
+    public VolunteeringDTO listarId( @PathVariable("idVolunteering") @Min(1) @Max(50) int idVolunteering) {
         ModelMapper m = new ModelMapper();
         VolunteeringDTO dto = m.map(vS.listId(idVolunteering), VolunteeringDTO.class);
         return dto;
@@ -55,20 +54,20 @@ public class VolunteeringController {
 
     @PutMapping
     @PreAuthorize("hasAnyAuthority('ECOLOGISTA', 'ADMIN')")
-    public ResponseEntity<String> modificar(@Valid @RequestBody VolunteeringDTO vDto) {
+    public void modificar( @RequestBody VolunteeringDTO vDto) {
         ModelMapper m = new ModelMapper();
         Volunteering v = m.map(vDto, Volunteering.class);
         vS.update(v);
-        String mensaje = "Voluntariado modificado correctamente: " + vDto.getNameVolunteering();
-        return new ResponseEntity<>(mensaje, HttpStatus.OK);
+
     }
     @DeleteMapping("/{idVolunteering}")
     @PreAuthorize("hasAnyAuthority('ECOLOGISTA', 'ADMIN')")
-    public void eliminar(@Valid @PathVariable("idVolunteering") @Min(1) int idVolunteering) {
+    public void eliminar( @PathVariable("idVolunteering") @Min(1) int idVolunteering) {
         vS.delete(idVolunteering);
     }
 
     @GetMapping("/HU59")
+    @PreAuthorize("hasAnyAuthority('ECOLOGISTA', 'ADMIN')")
     public List<HU59DTO> HU59(){
         List<HU59DTO> dtos = new ArrayList<>();
         List<String[]> filaLista = vS.userAttendance();
